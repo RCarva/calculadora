@@ -27,9 +27,58 @@ for j in range(2,5):
         btn[i].grid(row = j, column=k,pady=1)
         i+=1
 
-btnClear = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = chr(67), bg="powder blue").grid(row = 1, column=0,pady=1)
+#botoes calc simples 
+btnlimpar = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = chr(67), bg="powder blue").grid(row = 1, column=0,pady=1)
 
-btnClear = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = chr(67)+ chr(69), bg="powder blue").grid(row = 1, column=1,pady=1)
+btnlimptudo = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = chr(67)+ chr(69), bg="powder blue").grid(row = 1, column=1,pady=1)
+
+btnraiz = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = "√", bg="powder blue").grid(row = 1, column=2,pady=1)
+
+btnsoma = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = "+", bg="powder blue").grid(row = 1, column=3,pady=1)
+
+btnsubt = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = "-", bg="powder blue").grid(row = 2, column=3,pady=2)
+
+btnmult = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = "x", bg="powder blue").grid(row = 3, column=3,pady=3)
+
+btndiv = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = ":", bg="powder blue").grid(row = 4, column=3,pady=4)
+
+btnpocent = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = "%", bg="powder blue").grid(row = 5, column=0,pady=1)
+
+btnzero = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = "0").grid(row = 5, column=1,pady=1) # nao sei se funcionaria dessa forma
+
+btnponto = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = ".", bg="powder blue").grid(row = 5, column=2,pady=1)
+
+btnigual = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = "=", bg="powder blue").grid(row = 5, column=3,pady=1)
+
+
+#============================================CALC-CIENTIFICA==========================================================
+
+#botoes calc cientifica
+btnparent1 = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = "(", bg="powder blue").grid(row = 0, column=4,pady=1)
+
+btnparent2 = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = ")", bg="powder blue").grid(row = 0, column=5,pady=1)
+
+btnpi = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = "π", bg="powder blue").grid(row = 1, column=4,pady=1)
+
+btnsen = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = "sen", bg="powder blue").grid(row = 2, column=4,pady=1)
+
+btncos = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = "cos", bg="powder blue").grid(row = 3, column=4,pady=1)
+
+btntg = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = "tg", bg="powder blue").grid(row = 4, column=4,pady=1)
+
+btne = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = "e", bg="powder blue").grid(row = 5, column=4,pady=1)
+
+btnlog = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = "log", bg="powder blue").grid(row = 1, column=5,pady=1)
+
+btnln = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = "ln", bg="powder blue").grid(row = 2, column=5,pady=1)
+
+btnlimite = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = "lim", bg="powder blue").grid(row = 3, column=5,pady=1)
+
+btnderiv = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = "dy/dx", bg="powder blue").grid(row = 4, column=5,pady=1)
+
+btnintegral = Button(calculo, width=6, height=2, font=("arial", 20, "bold"), bd=4, text = "∫", bg="powder blue").grid(row = 5, column=5,pady=1)
+
+
 #====================================================MENU=============================================================
 
 
