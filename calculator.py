@@ -120,10 +120,14 @@ class Operações_Elementares(): #Vai cuidar de todas as operações mais simple
         self.resultado = False
         self.atual = math.log(float(entrada.get()))
         self.display(self.atual)
-
+    
+    def par(self):
+        self.resultado=False
+        self.atual = 0
+        self.display(self.atual)
     def quad(self):
         self.resultado=False
-        self.atual = math.pow(float(entrada.get()),2)
+        self.atual = math.pow(float(entrada.get()))
         self.display(self.atual)
   
     def exp(self): #Faz o Exponencial na base e do número no resultado
@@ -190,7 +194,7 @@ btnpocent = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="wh
 
 btnzero = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.num_entrada(0), text = "0", bg="grey32").grid(row = 5, column=1,pady=1) # nao sei se funcionaria dessa forma
 
-btnponto = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.num_entrada(","), text = ".", bg="grey58").grid(row = 5, column=2,pady=1)
+btnponto = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.num_entrada("."), text = ".", bg="grey58").grid(row = 5, column=2,pady=1)
 
 btnigual = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.somatório, text = "=", bg="chocolate1").grid(row = 5, column=3,pady=1)
 
@@ -227,6 +231,8 @@ btninte = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="whit
 btnderiv = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "dy/dx", bg="grey58").grid(row = 1, column=6,pady=1)
 
 btnlim = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "lim", bg="grey58").grid(row = 2, column=6,pady=1)
+
+btnx = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "x", bg="grey58").grid(row = 3, column=6,pady=1)
 #====================================================MENU=============================================================
 
 
