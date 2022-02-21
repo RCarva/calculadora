@@ -7,14 +7,14 @@ root = Tk()
 root.title("Calculadora Cientifica")
 root.configure(background ="white") #referente a cor da calculadora 
 root.resizable(width=False, height= False)#Usuário n pode alterar as dimensoes
-root.geometry("695x568+450+90")#480x568 sao as dimensoes. O +0+0 significa q o programa vai iniciar suas dimencoes na direita superior
+root.geometry("695x568+450+90")#695x568 sao as dimensoes. O +0+0 significa q o programa vai iniciar suas dimencoes na direita superior
 
 calculo = Frame(root)
 calculo.grid()
 
 
 class Operações_Elementares(): #Vai cuidar de todas as operações mais simples e conversões
-    def _init_(self):
+    def __init__(self):
         self.total=0
         self.atual=''
         self.valor=True
@@ -128,7 +128,7 @@ class Operações_Elementares(): #Vai cuidar de todas as operações mais simple
         
     def quad(self):
         self.resultado=False
-        self.atual = math.pow(float(entrada.get()))
+        self.atual = math.pow(float(entrada.get()),2)
         self.display(self.atual)
   
     def exp(self): #Faz o Exponencial na base e do número no resultado
@@ -187,13 +187,13 @@ btnsoma = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="whit
 
 btnsubt = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.operação("-"), text = "-", bg="chocolate1").grid(row = 2, column=3,pady=2)
 
-btnmult = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.operação(""), text = "", bg="chocolate1").grid(row = 3, column=3,pady=3)
+btnmult = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.operação("*"), text = "*", bg="chocolate1").grid(row = 3, column=3,pady=3)
 
 btndiv = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.operação("/"), text = ":", bg="chocolate1").grid(row = 4, column=3,pady=4)
 
 btnquad = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.quad, text = "^2", bg="grey58").grid(row = 5, column=0,pady=1)
 
-btnzero = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.num_entrada(0), text = "0", bg="grey32").grid(row = 5, column=1,pady=1) # nao sei se funcionaria dessa forma
+btnzero = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.num_entrada(0), text = "0", bg="grey32").grid(row = 5, column=1,pady=1) 
 
 btnponto = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.num_entrada("."), text = ".", bg="grey58").grid(row = 5, column=2,pady=1)
 
@@ -259,16 +259,6 @@ padraomenu.add_command(label = "Calculadora científica", command= cientifica)
 padraomenu.add_separator()
 padraomenu.add_command(label = "Sair", command= saida)
 
-configmenu = Menu(menubar, tearoff=0)
-menubar.add_cascade(label = "Configurações" , menu=configmenu)#adiciona a opcao do usuario clicar em "configurações"
-configmenu.add_command(label = "Cortar")
-configmenu.add_command(label = "Copiar")
-configmenu.add_separator()
-configmenu.add_command(label = "Inserir")
-
-ajudamenu = Menu(menubar, tearoff=0)
-menubar.add_cascade(label = "Ajuda" , menu=ajudamenu)#adiciona a opcao do usuario clicar em "ajuda"
-ajudamenu.add_command(label = "Ver ajuda")
 
 root.config(menu = menubar)
 root.mainloop()
