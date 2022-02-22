@@ -159,6 +159,44 @@ class Operações_Elementares(): #Vai cuidar de todas as operações mais simple
   
 valor_adicionado = Operações_Elementares()
 
+#===================================================Contas Calculadora Cientifica======================================
+
+
+def calculadoraCientifica(sinal):
+    if sinal == "c":
+        del lista[-1]
+
+    if sinal == "ci":
+        lista = list
+    
+    if sinal == "x":
+        if len(lista) != 0:
+            lista[-1].setX = True
+        else:
+            lista.append(Keyboard("1"))
+            lista[-1].setX = True
+     
+    if sinal not in "cix":
+        lista.append(Keyboard(sinal))
+
+    
+    a =  Derivada(lista)
+    visor = a.visorEquacao()
+
+    if sinal == "=" and lista[0].str == "dx":
+        del a[0]
+        a =  Derivada(lista)
+        a.potencia()
+        a.contaDerivada()
+        visor = a.str
+
+
+    if sinal == "=" and lista[0].str == "lim":
+        del a[0]
+        a.Lim(lista)
+
+    return visor
+
 #====================================================Interface grafica================================================
 
 
@@ -177,27 +215,27 @@ for j in range(2,5):
         i+=1
 
 #botoes calc simples 
-btnlimpar = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.limpar, text = chr(67), bg="grey58").grid(row = 1, column=0,pady=1)
+btnlimpar = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command= lambda: [valor_adicionado.limpar(),calculadoraCientifica], text = chr(67), bg="grey58").grid(row = 1, column=0,pady=1)
 
-btnlimptudo = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.limpar_tudo, text = chr(67)+ chr(69), bg="grey58").grid(row = 1, column=1,pady=1)
+btnlimptudo = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command= lambda: [valor_adicionado.limpar_tudo(),calculadoraCientifica], text = chr(67)+ chr(69), bg="grey58").grid(row = 1, column=1,pady=1)
 
 btnraiz = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.raiz, text = "√", bg="grey58").grid(row = 1, column=2,pady=1)
 
-btnsoma = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.operação("+"), text = "+", bg="chocolate1").grid(row = 1, column=3,pady=1)
+btnsoma = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: [valor_adicionado.operação("+"),calculadoraCientifica], text = "+", bg="chocolate1").grid(row = 1, column=3,pady=1)
 
-btnsubt = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.operação("-"), text = "-", bg="chocolate1").grid(row = 2, column=3,pady=2)
+btnsubt = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: [valor_adicionado.operação("-"),calculadoraCientifica], text = "-", bg="chocolate1").grid(row = 2, column=3,pady=2)
 
 btnmult = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.operação("*"), text = "*", bg="chocolate1").grid(row = 3, column=3,pady=3)
 
 btndiv = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.operação("/"), text = ":", bg="chocolate1").grid(row = 4, column=3,pady=4)
 
-btnquad = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.quad, text = "^2", bg="grey58").grid(row = 5, column=0,pady=1)
+btnquad = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command= lambda: [valor_adicionado.quad(),calculadoraCientifica], text = "^2", bg="grey58").grid(row = 5, column=0,pady=1)
 
 btnzero = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.num_entrada(0), text = "0", bg="grey32").grid(row = 5, column=1,pady=1) 
 
 btnponto = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.num_entrada("."), text = ".", bg="grey58").grid(row = 5, column=2,pady=1)
 
-btnigual = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.somatório, text = "=", bg="chocolate1").grid(row = 5, column=3,pady=1)
+btnigual = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command= lambda: [valor_adicionado.somatório(),calculadoraCientifica], text = "=", bg="chocolate1").grid(row = 5, column=3,pady=1)
 
 
 #============================================CALC-CIENTIFICA==========================================================
