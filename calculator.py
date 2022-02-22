@@ -1,22 +1,15 @@
 import math
 from tkinter import *
-from tkinter import ttk
 import tkinter.messagebox
 
 root = Tk()
 root.title("Calculadora Cientifica")
 root.configure(background ="white") #referente a cor da calculadora 
 root.resizable(width=False, height= False)#Usuário n pode alterar as dimensoes
-root.geometry("800x800+0+0")#695x568 sao as dimensoes. O +0+0 significa q o programa vai iniciar suas dimencoes na direita superior
+root.geometry("695x568+450+90")#695x568 sao as dimensoes. O +0+0 significa q o programa vai iniciar suas dimencoes na direita superior
 
-
-
-nb = ttk.Notebook(root)
-nb.place(x=0, y=0, width=800, height=800)
-aba1 = Frame(nb)
-nb.add(aba1, text="calculadora padrao")
-aba2 = Frame(nb)
-nb.add(aba2, text="calculadora cientifica")
+calculo = Frame(root)
+calculo.grid()
 
 
 class Operações_Elementares(): #Vai cuidar de todas as operações mais simples e conversões
@@ -165,122 +158,81 @@ class Operações_Elementares(): #Vai cuidar de todas as operações mais simple
   
 valor_adicionado = Operações_Elementares()
 
-#===================================================Contas Calculadora Cientifica======================================
-
-
-def calculadoraCientifica(sinal):
-    if sinal == "c":
-        del lista[-1]
-
-    if sinal == "ci":
-        lista = list
-    
-    if sinal == "x":
-        if len(lista) != 0:
-            lista[-1].setX = True
-        else:
-            lista.append(Keyboard("1"))
-            lista[-1].setX = True
-     
-    if sinal not in "cix":
-        lista.append(Keyboard(sinal))
-
-    
-    a =  Derivada(lista)
-    visor = a.visorEquacao()
-
-    if sinal == "=" and lista[0].str == "dx":
-        del a[0]
-        a =  Derivada(lista)
-        a.potencia()
-        a.contaDerivada()
-        visor = a.str
-
-
-    if sinal == "=" and lista[0].str == "lim":
-        del a[0]
-        a.Lim(lista)
-
-    return visor
-
 #====================================================Interface grafica================================================
 
-abas = [aba1,aba2]
+
+entrada = Entry(calculo, font = ("arial",20,"bold"), bg="white", bd=30, width=40,justify=RIGHT)
+entrada.grid(row = 0, column=0, columnspan=6,pady=1)
+entrada.insert(0,"0")
+
+numberpadkk = "789456123"
+i=0
+btn = []
+for j in range(2,5):
+    for k in range(3):
+        btn.append(Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white",bg="grey32", bd=4, text =numberpadkk[i]))
+        btn[i].grid(row = j, column=k,pady=1)
+        btn[i]["command"]=lambda x=numberpadkk[i]:valor_adicionado.num_entrada(x)
+        i+=1
 
 #botoes calc simples 
-for aba in abas:
+btnlimpar = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.limpar, text = chr(67), bg="grey58").grid(row = 1, column=0,pady=1)
 
-    entrada = Entry(aba, font = ("arial",20,"bold"), bg="white", bd=30, width=40,justify=RIGHT)
-    entrada.grid(row = 0, column=0, columnspan=6,pady=1)
-    entrada.insert(0,"0")
+btnlimptudo = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.limpar_tudo, text = chr(67)+ chr(69), bg="grey58").grid(row = 1, column=1,pady=1)
 
-    numberpadkk = "789456123"
-    i=0
-    btn = []
-    for j in range(2,5):
-        for k in range(3):
-            btn.append(Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white",bg="grey32", bd=4, text =numberpadkk[i]))
-            btn[i].grid(row = j, column=k,pady=1)
-            btn[i]["command"]=lambda x=numberpadkk[i]:valor_adicionado.num_entrada(x)
-            i+=1
-    btnlimpar = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command= lambda: [valor_adicionado.limpar(),calculadoraCientifica], text = chr(67), bg="grey58").grid(row = 1, column=0,pady=1)
+btnraiz = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.raiz, text = "√", bg="grey58").grid(row = 1, column=2,pady=1)
 
-    btnlimptudo = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command= lambda: [valor_adicionado.limpar_tudo(),calculadoraCientifica], text = chr(67)+ chr(69), bg="grey58").grid(row = 1, column=1,pady=1)
+btnsoma = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.operação("+"), text = "+", bg="chocolate1").grid(row = 1, column=3,pady=1)
 
-    btnraiz = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.raiz, text = "√", bg="grey58").grid(row = 1, column=2,pady=1)
+btnsubt = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.operação("-"), text = "-", bg="chocolate1").grid(row = 2, column=3,pady=2)
 
-    btnsoma = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: [valor_adicionado.operação("+"),calculadoraCientifica], text = "+", bg="chocolate1").grid(row = 1, column=3,pady=1)
+btnmult = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.operação("*"), text = "*", bg="chocolate1").grid(row = 3, column=3,pady=3)
 
-    btnsubt = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: [valor_adicionado.operação("-"),calculadoraCientifica], text = "-", bg="chocolate1").grid(row = 2, column=3,pady=2)
+btndiv = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.operação("/"), text = ":", bg="chocolate1").grid(row = 4, column=3,pady=4)
 
-    btnmult = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.operação("*"), text = "*", bg="chocolate1").grid(row = 3, column=3,pady=3)
+btnquad = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.quad, text = "^2", bg="grey58").grid(row = 5, column=0,pady=1)
 
-    btndiv = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.operação("/"), text = ":", bg="chocolate1").grid(row = 4, column=3,pady=4)
+btnzero = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.num_entrada(0), text = "0", bg="grey32").grid(row = 5, column=1,pady=1) 
 
-    btnquad = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command= lambda: [valor_adicionado.quad(),calculadoraCientifica], text = "^2", bg="grey58").grid(row = 5, column=0,pady=1)
+btnponto = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.num_entrada("."), text = ".", bg="grey58").grid(row = 5, column=2,pady=1)
 
-    btnzero = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.num_entrada(0), text = "0", bg="grey32").grid(row = 5, column=1,pady=1) 
-
-    btnponto = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.num_entrada("."), text = ".", bg="grey58").grid(row = 5, column=2,pady=1)
-
-    btnigual = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command= lambda: [valor_adicionado.somatório(),calculadoraCientifica], text = "=", bg="chocolate1").grid(row = 5, column=3,pady=1)
+btnigual = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.somatório, text = "=", bg="chocolate1").grid(row = 5, column=3,pady=1)
 
 
-    #============================================CALC-CIENTIFICA==========================================================
+#============================================CALC-CIENTIFICA==========================================================
 
-    #botoes calc cientifica
+#botoes calc cientifica
+btnx = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "x", bg="grey58").grid(row = 0, column=6,pady=1)
 
-    btnpi = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.pi, text = "π", bg="grey58").grid(row = 1, column=4,pady=1)
+btnpi = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.pi, text = "π", bg="grey58").grid(row = 1, column=4,pady=1)
 
-    btnsen = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.seno, text = "sen", bg="grey58").grid(row = 2, column=4,pady=1)
+btnsen = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.seno, text = "sen", bg="grey58").grid(row = 2, column=4,pady=1)
 
-    btncos = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.cos, text = "cos", bg="grey58").grid(row = 3, column=4,pady=1)
+btncos = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.cos, text = "cos", bg="grey58").grid(row = 3, column=4,pady=1)
 
-    btntg = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.tan, text = "tg", bg="grey58").grid(row = 4, column=4,pady=1)
+btntg = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.tan, text = "tg", bg="grey58").grid(row = 4, column=4,pady=1)
 
-    btne = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.euler, text = "e", bg="grey58").grid(row = 5, column=4,pady=1)
+btne = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.euler, text = "e", bg="grey58").grid(row = 5, column=4,pady=1)
 
-    btnlog = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.log, text = "log", bg="grey58").grid(row = 1, column=5,pady=1)
+btnlog = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=valor_adicionado.log, text = "log", bg="grey58").grid(row = 1, column=5,pady=1)
 
-    btnlog2 = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "log2",command=valor_adicionado.log2, bg="grey58").grid(row = 2, column=5,pady=1)
+btnlog2 = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "log2",command=valor_adicionado.log2, bg="grey58").grid(row = 2, column=5,pady=1)
 
-    btnlog10 = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "log10",command=valor_adicionado.log10, bg="grey58").grid(row = 3, column=5,pady=1)
+btnlog10 = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "log10",command=valor_adicionado.log10, bg="grey58").grid(row = 3, column=5,pady=1)
 
-    btnloglp = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4,command=valor_adicionado.log1p, text = "ln", bg="grey58").grid(row = 4, column=5,pady=1)
-    btnexpo = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "exp",command=valor_adicionado.exp, bg="grey58").grid(row = 5, column=5,pady=1)
-    if aba == aba2:
+btnloglp = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4,command=valor_adicionado.log1p, text = "ln", bg="grey58").grid(row = 4, column=5,pady=1)
 
-        btnx = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "x", bg="grey58").grid(row = 0, column=6,pady=1)
+btnexpo = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "exp",command=valor_adicionado.exp, bg="grey58").grid(row = 5, column=5,pady=1)
 
-        btnparent1 = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "(", bg="grey58").grid(row = 1, column=6,pady=1)
+btnparent1 = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "(", bg="grey58").grid(row = 1, column=6,pady=1)
 
-        btnparent2 = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = ")", bg="grey58").grid(row = 2, column=6,pady=1)
+btnparent2 = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = ")", bg="grey58").grid(row = 2, column=6,pady=1)
 
-        btnderiv = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "dy/dx", bg="grey58").grid(row = 3, column=6,pady=1)
+btnderiv = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "dy/dx", bg="grey58").grid(row = 3, column=6,pady=1)
 
-        btnlim = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "lim", bg="grey58").grid(row = 4, column=6,pady=1)
+btnlim = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "lim", bg="grey58").grid(row = 4, column=6,pady=1)
 
-        btninte = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "∫", bg="grey58").grid(row = 5, column=6,pady=1)
+btninte = Button(calculo, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "∫", bg="grey58").grid(row = 5, column=6,pady=1)
 #====================================================MENU=============================================================
 
 
@@ -298,7 +250,7 @@ def padrao():
     root.resizable(width=False, height= False)#Usuário n pode alterar as dimensoes
     root.geometry("695x568+450+90")
 
-menubar = Menu(aba1)
+menubar = Menu(calculo)
 padraomenu = Menu(menubar, tearoff=0)
 menubar.add_cascade(label = "Opções" , menu=padraomenu)#adiciona a opcao do usuario clicar em "opções"
 padraomenu.add_command(label = "Calculadora Padrão", command= padrao)
