@@ -8,15 +8,15 @@ root.title("Calculadora Cientifica")
 root.configure(background ="black") #referente a cor da calculadora 
 root.resizable(width=False, height= False)#Usuário n pode alterar as dimensoes
 root.geometry("800x600+0+0")#695x568 sao as dimensoes. O +0+0 significa q o programa vai iniciar suas dimencoes na direita superior
-
+#file = open("history.txt", "a+")
 
 
 nb = ttk.Notebook(root)
 nb.place(x=0, y=0, width=800, height=800)
 aba1 = Frame(nb)
-nb.add(aba1, text="calculadora cientifica")
+nb.add(aba1, text="Calculadora científica")
 aba2 = Frame(nb)
-nb.add(aba2, text="Ver Ajuda")
+nb.add(aba2, text="Ver ajuda")
 aba3 = Frame(nb)
 nb.add(aba3, text="Histórico")
 
@@ -29,6 +29,7 @@ class Operações_Elementares(): #Vai cuidar de todas as operações mais simple
         self.chk_soma=False
         self.op=''
         self.resultado=False
+        #self.history = []
     
     def display(self, value): # Controla o que está sendo demonstrado
         entrada.delete(0, END)
@@ -57,15 +58,19 @@ class Operações_Elementares(): #Vai cuidar de todas as operações mais simple
             self.valor=True
         self.chk_soma=True
         self.op=op
-        self.resultado=False
+        #self.history.append(str(self.atual))
+        #self.history.append(op)
+        #self.resultado=False
   
     def somatório(self): # Faz o uso de diferentes entradas
         self.resultado=True
+        #self.history.append(self.atual)
         self.atual=float(self.atual)
         if self.chk_soma==True:
             self.função()
         else:
             self.total=float(entrada.get())
+
 
     def função(self): # Faz as operações se baseando nos botões com os comandos atrelados
         if self.op == "+":
@@ -78,20 +83,27 @@ class Operações_Elementares(): #Vai cuidar de todas as operações mais simple
             self.total /= self.atual
         if self.op == "%":
             self.total %= self.atual
+
+        #self.history.append("=")
+        #self.history.append(str(self.total))
         self.valor=True
         self.chk_soma=False
         self.display(self.total)
+        #file.writelines(self.history)
+        #file.write("\n")
+        #self.history.clear()
 
     def limpar(self): #Função que limpa o display
         self.resultado = False
         self.atual = "0"
+        #self.history.pop()
         self.display(0)
         self.valor=True
   
     def limpar_tudo(self): #Função que limpa as funções
         self.limpar()
+        #self.history.clear()
         self.total=0
-
 #==========================================================================Conversões Rápidas==========================================================================
   
     def pi(self): #Converte π
@@ -103,11 +115,13 @@ class Operações_Elementares(): #Vai cuidar de todas as operações mais simple
         self.resultado =  False
         self.atual = math.e
         self.display(self.atual)
+        
 
     def raiz(self): #Faz a raiz do número no resultado
         self.resultado = False
         self.atual = math.sqrt(float(entrada.get()))
         self.display(self.atual)
+        
   
     def cos(self): #Faz o Coseno do número no resultado
         self.resultado = False
@@ -166,7 +180,6 @@ class Operações_Elementares(): #Vai cuidar de todas as operações mais simple
         self.display(self.atual)
   
 valor_adicionado = Operações_Elementares()
-
 #===================================================Contas Calculadora Cientifica======================================
 
 
@@ -287,9 +300,16 @@ for aba in abas:
 
 #====================================================Aba Ver Ajuda=====================================================================================================
 
-ttk.Label(aba2,text="Tipos de Calculos que podem ser feitos:\n> Aritiméticos\n> Funções\n> Valor das Constantes\n\n",font="Helvetica").grid(column=1, row=2)
-ttk.Label(aba2,text="Casos de Limites:\n> bla\n> bla\n> bla",font="Helvetica\n\n").grid(column=2, row=2)
-ttk.Label(aba2,text="Casos de Derivadas:\n> loll\n> lol \n> bla",font="Helvetica").grid(column=3, row=2)
+labels1 = Label(aba2,text="Casos de Limites:\n> balabablabla\n> blabalbablabalb\n> blbablablalbabalba", bd=2, font=25, borderwidth=2, relief="flat").grid(column = 0, row = 1,padx = 30,pady = 30,sticky = "e")
+labels2 = Label(aba2,text="Cálculos possiveis:\n> Aritiméticos\n> Funções\n> Valor das Constantes",bd=2, font=25, borderwidth=2, relief="flat").grid(column = 0, row = 0, padx = 30,pady = 30,sticky="e")
+labels3 = Label(aba2,text="Casos de Derivadas:\n> blabalbblaboalal\n> llolboalbaoblaool \n> blblalbablalbala",bd=2, font=25, borderwidth=2, relief="flat").grid(column = 0, row = 2,padx = 30,pady = 30,sticky="e")
+#ttk.Label(aba2)
+#===================================================Aba Historico======================================================================================================
+historico = ["59.0-6=53.0","83.0-4=79.0","30.0*3=90.0"]
+listbox_widget = tkinter.Listbox(aba3)
+for entry in historico:
+    listbox_widget.insert(tkinter.END, entry)
+listbox_widget.pack(side = LEFT, expand = False, fill = BOTH)
 
 #====================================================MENU==============================================================================================================
 
@@ -297,6 +317,7 @@ ttk.Label(aba2,text="Casos de Derivadas:\n> loll\n> lol \n> bla",font="Helvetica
 def saida():
     sair = tkinter.messagebox.askyesno("Calculadora Cientifica","Deseja sair?")#abre uma caixa com a msg escrita
     if sair > 0:
+        #file.close()
         root.destroy()
         return
 
