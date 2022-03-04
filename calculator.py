@@ -87,18 +87,28 @@ class Operações_Elementares(): #Vai cuidar de todas as operações mais simple
         Keyboard.persistencia(" = ")
         Keyboard.persistencia(float(self.total))
         Keyboard.persistencia("\n")
-        Keyboard.close()
-        Keyboard.open()
+        #Keyboard.close()
+        #Keyboard.open()
 
     def limpar(self): #Função que limpa o display
         self.resultado = False
         self.atual = "0"
         self.display(0)
         self.valor=True
+        Keyboard.persistencia("\n")
+        Keyboard.persistencia("Limpar")
+        Keyboard.persistencia("\n")
+        Keyboard.persistencia(str(self.total)+self.op)
+        
   
     def limpar_tudo(self): #Função que limpa as funções
         self.limpar()
         self.total=0
+        Keyboard.persistencia("Limpar Tudo (")
+        Keyboard.persistencia(None)
+        Keyboard.persistencia(")\n")
+        
+
 
 #==========================================================================Conversões Rápidas==========================================================================
   
@@ -128,25 +138,25 @@ class Operações_Elementares(): #Vai cuidar de todas as operações mais simple
         self.resultado = False
         self.atual = math.cos(math.radians(float(Keyboard.entrada.get())))
         self.display(self.atual)
-        Keyboard.persistencia(" = arccos(")
+        Keyboard.persistencia(" cos = ")
         Keyboard.persistencia(float(self.atual))
-        Keyboard.persistencia(")\n")
+        Keyboard.persistencia("\n")
 
     def tan(self): #Faz a Tangente do número no resultado
         self.resultado = False
         self.atual = math.tan(math.radians(float(Keyboard.entrada.get())))
         self.display(self.atual)
-        Keyboard.persistencia(" = arctan(")
+        Keyboard.persistencia(" tan = ")
         Keyboard.persistencia(float(self.atual))
-        Keyboard.persistencia(")\n")
+        Keyboard.persistencia("\n")
 
     def seno(self): #Faz o Seno do número no resultado
         self.resultado = False
         self.atual = math.sin(math.radians(float(Keyboard.entrada.get())))
         self.display(self.atual)
-        Keyboard.persistencia(" = arcsen(")
+        Keyboard.persistencia(" sen = ")
         Keyboard.persistencia(float(self.atual))
-        Keyboard.persistencia(")\n")
+        Keyboard.persistencia("\n")
   
     def log(self): #Faz o Log do número no resultado
         self.resultado = False
@@ -168,7 +178,7 @@ class Operações_Elementares(): #Vai cuidar de todas as operações mais simple
         self.resultado = False
         self.atual = math.pow(float(Keyboard.entrada.get()),2)
         self.display(self.atual)
-        Keyboard.persistencia(" = ")
+        Keyboard.persistencia("^2 = ")
         Keyboard.persistencia(float(self.atual))
         Keyboard.persistencia("\n")
   
@@ -230,7 +240,6 @@ for aba in abas:
 
         btndiv = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.operação("/"), text = ":", bg="chocolate1").grid(row = 4, column=3,pady=4)
 
-        #problema
         btnquad = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command= lambda:valor_adicionado.quad(), text = "^2", bg="grey58").grid(row = 5, column=0,pady=1)
 
         btnzero = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.num_entrada(0), text = "0", bg="grey32").grid(row = 5, column=1,pady=1) 
@@ -338,7 +347,7 @@ class Keyboard(): #Traduz as letras e símbolos e grava no arquivo de histórico
 #====================================================Aba Ver Ajuda=====================================================================================================
 
 labels1 = Label(aba2,text="Casos de Limites:\n> balabablabla\n> blabalbablabalb\n> blbablablalbabalba", bd=2, font=25, borderwidth=2, relief="flat").grid(column = 0, row = 1,padx = 30,pady = 30,sticky = "e")
-labels2 = Label(aba2,text="Cálculos possiveis:\n> Aritiméticos\n> Funções\n> Valor das Constantes",bd=2, font=25, borderwidth=2, relief="flat").grid(column = 0, row = 0, padx = 30,pady = 30,sticky="e")
+labels2 = Label(aba2,text="Cálculos possiveis:\n> Aritiméticos\n> Funções\n> Valor das Constantes",bd=2, font=25, borderwidth=2, relief="flat").grid(column = 1, row = 0, padx = 30,pady = 30,sticky="e")
 labels3 = Label(aba2,text="Casos de Derivadas:\n> blabalbblaboalal\n> llolboalbaoblaool \n> blblalbablalbala",bd=2, font=25, borderwidth=2, relief="flat").grid(column = 0, row = 2,padx = 30,pady = 30,sticky="e")
 #===================================================Aba Historico======================================================================================================
 arquivo = open(Keyboard.caminho+"/Log da Calculadora.txt", "r")
@@ -354,7 +363,6 @@ arquivo.close()
 def saida():
     sair = tkinter.messagebox.askyesno("Calculadora Cientifica","Deseja sair?")#abre uma caixa com a msg escrita
     if sair > 0:
-        #file.close()
         root.destroy()
         return
 
