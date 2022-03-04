@@ -2,17 +2,18 @@ import math
 from tkinter import *
 from tkinter import ttk
 import tkinter.messagebox
+import os
 
 root = Tk()
 root.title("Calculadora Cientifica")
 root.configure(background ="black") #referente a cor da calculadora 
 root.resizable(width=False, height= False)#Usuário n pode alterar as dimensoes
 root.geometry("800x600+0+0")#695x568 sao as dimensoes. O +0+0 significa q o programa vai iniciar suas dimencoes na direita superior
-#file = open("history.txt", "a+")
+file = open("Log da Calculadora.txt", "a+")
 
 
-nb = ttk.Notebook(root)
-nb.place(x=0, y=0, width=800, height=800)
+nb = ttk.Notebook(root)#Criação de abas
+nb.place(x=0, y=0, width=800, height=800)#tamanho das abas
 aba1 = Frame(nb)
 nb.add(aba1, text="Calculadora científica")
 aba2 = Frame(nb)
@@ -29,15 +30,14 @@ class Operações_Elementares(): #Vai cuidar de todas as operações mais simple
         self.chk_soma=False
         self.op=''
         self.resultado=False
-        #self.history = []
     
     def display(self, value): # Controla o que está sendo demonstrado
-        entrada.delete(0, END)
-        entrada.insert(0, value)
+        Keyboard.entrada.delete(0, END)
+        Keyboard.entrada.insert(0, value)
     
-    def num_entrada(self, num):  #Modifica os números na entrada para contas rápidas
+    def num_entrada(self, num):  #Modifica os números na Keyboard.entrada para contas rápidas
         self.resultado=False
-        num1=entrada.get()
+        num1=Keyboard.entrada.get()
         num2=str(num)
         if self.valor:
             self.atual = num2
@@ -48,6 +48,7 @@ class Operações_Elementares(): #Vai cuidar de todas as operações mais simple
                     return
             self.atual = num1+num2
         self.display(self.atual)
+        Keyboard.persistencia(num)
   
     def operação(self, op): # Chama as operações se baseando nos botões
         self.atual = float(self.atual)
@@ -58,19 +59,16 @@ class Operações_Elementares(): #Vai cuidar de todas as operações mais simple
             self.valor=True
         self.chk_soma=True
         self.op=op
-        #self.history.append(str(self.atual))
-        #self.history.append(op)
-        #self.resultado=False
+        self.resultado=False
+        Keyboard.persistencia(self.op)
   
     def somatório(self): # Faz o uso de diferentes entradas
         self.resultado=True
-        #self.history.append(self.atual)
         self.atual=float(self.atual)
         if self.chk_soma==True:
             self.função()
         else:
-            self.total=float(entrada.get())
-
+            self.total=float(Keyboard.entrada.get())
 
     def função(self): # Faz as operações se baseando nos botões com os comandos atrelados
         if self.op == "+":
@@ -83,140 +81,123 @@ class Operações_Elementares(): #Vai cuidar de todas as operações mais simple
             self.total /= self.atual
         if self.op == "%":
             self.total %= self.atual
-
-        #self.history.append("=")
-        #self.history.append(str(self.total))
         self.valor=True
         self.chk_soma=False
         self.display(self.total)
-        #file.writelines(self.history)
-        #file.write("\n")
-        #self.history.clear()
+        Keyboard.persistencia(" = ")
+        Keyboard.persistencia(float(self.total))
+        Keyboard.persistencia("\n")
+        Keyboard.close()
+        Keyboard.open()
 
     def limpar(self): #Função que limpa o display
         self.resultado = False
         self.atual = "0"
-        #self.history.pop()
         self.display(0)
         self.valor=True
   
     def limpar_tudo(self): #Função que limpa as funções
         self.limpar()
-        #self.history.clear()
         self.total=0
+
 #==========================================================================Conversões Rápidas==========================================================================
   
     def pi(self): #Converte π
         self.resultado =  False
         self.atual = math.pi
         self.display(self.atual)
+        Keyboard.persistencia(self.atual)
+        Keyboard.persistencia("\n")
 
     def euler(self): #Converte e
         self.resultado =  False
         self.atual = math.e
         self.display(self.atual)
-        
+        Keyboard.persistencia(self.atual)
+        Keyboard.persistencia("\n")
 
     def raiz(self): #Faz a raiz do número no resultado
         self.resultado = False
-        self.atual = math.sqrt(float(entrada.get()))
+        self.atual = math.sqrt(float(Keyboard.entrada.get()))
         self.display(self.atual)
-        
+        Keyboard.persistencia("^1/2 = ")
+        Keyboard.persistencia(float(self.atual))
+        Keyboard.persistencia("\n")
   
     def cos(self): #Faz o Coseno do número no resultado
         self.resultado = False
-        self.atual = math.cos(math.radians(float(entrada.get())))
+        self.atual = math.cos(math.radians(float(Keyboard.entrada.get())))
         self.display(self.atual)
+        Keyboard.persistencia(" = arccos(")
+        Keyboard.persistencia(float(self.atual))
+        Keyboard.persistencia(")\n")
 
     def tan(self): #Faz a Tangente do número no resultado
         self.resultado = False
-        self.atual = math.tan(math.radians(float(entrada.get())))
+        self.atual = math.tan(math.radians(float(Keyboard.entrada.get())))
         self.display(self.atual)
+        Keyboard.persistencia(" = arctan(")
+        Keyboard.persistencia(float(self.atual))
+        Keyboard.persistencia(")\n")
 
     def seno(self): #Faz o Seno do número no resultado
         self.resultado = False
-        self.atual = math.sin(math.radians(float(entrada.get())))
+        self.atual = math.sin(math.radians(float(Keyboard.entrada.get())))
         self.display(self.atual)
+        Keyboard.persistencia(" = arcsen(")
+        Keyboard.persistencia(float(self.atual))
+        Keyboard.persistencia(")\n")
   
     def log(self): #Faz o Log do número no resultado
         self.resultado = False
-        self.atual = math.log(float(entrada.get()))
+        self.atual = math.log(float(Keyboard.entrada.get()))
         self.display(self.atual)
-    
-    def par(self):
-        self.resultado=False
-        self.atual = 0
-        self.display(self.atual)
-        
-    def quad(self):
-        self.resultado=False
-        self.atual = math.pow(float(entrada.get()),2)
-        self.display(self.atual)
+        Keyboard.persistencia(" = ")
+        Keyboard.persistencia(float(self.atual))
+        Keyboard.persistencia("\n")
   
     def exp(self): #Faz o Exponencial na base e do número no resultado
         self.resultado = False
-        self.atual = math.exp(float(entrada.get()))
+        self.atual = math.exp(float(Keyboard.entrada.get()))
         self.display(self.atual)
+        Keyboard.persistencia(" = ln(")
+        Keyboard.persistencia(float(self.atual))
+        Keyboard.persistencia(")\n")
 
-    def graus(self): #Converte radianos em graus do número no resultado
+    def quad(self): #Converte radianos em graus do número no resultado
         self.resultado = False
-        self.atual = math.degrees(float(entrada.get()))
+        self.atual = math.pow(float(Keyboard.entrada.get()),2)
         self.display(self.atual)
+        Keyboard.persistencia(" = ")
+        Keyboard.persistencia(float(self.atual))
+        Keyboard.persistencia("\n")
   
     def log2(self): #Faz o Log de base 2 do número no resultado
         self.resultado = False
-        self.atual = math.log2(float(entrada.get()))
+        self.atual = math.log2(float(Keyboard.entrada.get()))
         self.display(self.atual)
+        Keyboard.persistencia(" = 2^")
+        Keyboard.persistencia(float(self.atual))
+        Keyboard.persistencia("\n")
+        
   
     def log10(self): #Faz o Log de base 10 do número no resultado
         self.resultado = False
-        self.atual = math.log10(float(entrada.get()))
+        self.atual = math.log10(float(Keyboard.entrada.get()))
         self.display(self.atual)
-    
+        Keyboard.persistencia(" = 10^")
+        Keyboard.persistencia(float(self.atual))
+        Keyboard.persistencia("\n")
   
     def log1p(self): #Faz o Log na base e de 1+ o número no resultado
         self.resultado = False
-        self.atual = math.log1p(float(entrada.get()))
+        self.atual = math.log1p(float(Keyboard.entrada.get()))
         self.display(self.atual)
+        Keyboard.persistencia(" = ")
+        Keyboard.persistencia(float(self.atual))
+        Keyboard.persistencia("\n")
   
 valor_adicionado = Operações_Elementares()
-#===================================================Contas Calculadora Cientifica======================================
-
-
-"""def CalculadoraCientifica(sinal):
-    if sinal == "c":
-        del lista[-1]
-
-    if sinal == "ci":
-        lista = list
-    
-    if sinal == "x":
-        if len(lista) != 0:
-            lista[-1].setX = True
-        else:
-            lista.append(Keyboard("1"))
-            lista[-1].setX = True
-     
-    if sinal not in "cix":
-        lista.append(Keyboard(sinal))
-
-    
-    a =  Derivada(lista)
-    visor = a.visorEquacao()
-
-    if sinal == "=" and lista[0].str == "dx":
-        del a[0]
-        a =  Derivada(lista)
-        a.potencia()
-        a.contaDerivada()
-        visor = a.str
-
-
-    if sinal == "=" and lista[0].str == "lim":
-        del a[0]
-        a.Lim(lista)
-
-    return visor"""
 
 #====================================================Interface grafica================================================
 
@@ -225,10 +206,6 @@ abas = [aba1]
 #botoes calc simples 
 for aba in abas:
     if aba == aba1:
-
-        entrada = Entry(aba, font = ("arial",20,"bold"), bg="white", bd=30, width=40,justify=RIGHT)
-        entrada.grid(row = 0, column=0, columnspan=6,pady=1)
-        entrada.insert(0,"0")
 
         numberpadkk = "789456123"
         i=0
@@ -253,6 +230,7 @@ for aba in abas:
 
         btndiv = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.operação("/"), text = ":", bg="chocolate1").grid(row = 4, column=3,pady=4)
 
+        #problema
         btnquad = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command= lambda:valor_adicionado.quad(), text = "^2", bg="grey58").grid(row = 5, column=0,pady=1)
 
         btnzero = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, command=lambda: valor_adicionado.num_entrada(0), text = "0", bg="grey32").grid(row = 5, column=1,pady=1) 
@@ -298,19 +276,78 @@ for aba in abas:
 
         btninte = Button(aba, width=6, height=2, font=("arial", 20, "bold"),fg="white", bd=4, text = "∫", bg="grey58").grid(row = 5, column=6,pady=1)
 
+#================================================================Display=======================================================================================
+
+
+class Keyboard(): #Traduz as letras e símbolos e grava no arquivo de histórico
+    
+    def __init__(self, variavel):
+        self.pos_neg = bool # True - positivo; False - negativo
+        self.str = variavel # Atributo que armazena a variavel passada pela interface (a espera de definições de atributos)
+        self.x = bool # Atributo que sinaliza a presença do x no proximo objeto
+        self.potencia = 1 # Atributo que sinaliza que o objeto se trata de uma potencia de uma função
+    
+
+    def close():
+        arquivo.close()
+
+    def open():
+        arquivo = open(Keyboard.caminho+"/Log da Calculadora.txt", "a+")
+
+    def setPotencia(self, potencia): # Metodo que atribui ao objeto alguma potencia numérica
+        self.potencia = potencia
+    
+    def setStr(self, str):
+        self.str = str
+
+    def getX(self):
+        return self.x
+
+    def getPotencia(self):
+        return self.potencia
+
+    def getStr(self):
+        return self.str
+    
+    def setPosNeg(self, pos_neg):
+        self.pos_neg = pos_neg
+
+    def setX(self, x):
+        self.x = x
+
+    def getPosNeg(self):
+        return self.pos_neg
+
+    def setElevado(self, valor):
+        self.potencia = valor
+
+    def getElevado(self):
+        return self.potencia
+
+    caminho=os.getcwd()
+
+    def persistencia(dado):  #Abre um arquivo txt e grava o dado no arquivo
+        with open(Keyboard.caminho+"/Log da Calculadora.txt", "a") as log:
+            dado=str(dado)
+            log.writelines(dado)
+
+    entrada = Entry(aba, font = ("arial",20,"bold"), bg="white", bd=30, width=40,justify=RIGHT)
+    entrada.grid(row = 0, column=0, columnspan=6,pady=1)
+    entrada.insert(0,"0")
+
 #====================================================Aba Ver Ajuda=====================================================================================================
 
 labels1 = Label(aba2,text="Casos de Limites:\n> balabablabla\n> blabalbablabalb\n> blbablablalbabalba", bd=2, font=25, borderwidth=2, relief="flat").grid(column = 0, row = 1,padx = 30,pady = 30,sticky = "e")
 labels2 = Label(aba2,text="Cálculos possiveis:\n> Aritiméticos\n> Funções\n> Valor das Constantes",bd=2, font=25, borderwidth=2, relief="flat").grid(column = 0, row = 0, padx = 30,pady = 30,sticky="e")
 labels3 = Label(aba2,text="Casos de Derivadas:\n> blabalbblaboalal\n> llolboalbaoblaool \n> blblalbablalbala",bd=2, font=25, borderwidth=2, relief="flat").grid(column = 0, row = 2,padx = 30,pady = 30,sticky="e")
-#ttk.Label(aba2)
 #===================================================Aba Historico======================================================================================================
-historico = ["59.0-6=53.0","83.0-4=79.0","30.0*3=90.0"]
+arquivo = open(Keyboard.caminho+"/Log da Calculadora.txt", "r")
+historico = arquivo.readlines()
 listbox_widget = tkinter.Listbox(aba3)
 for entry in historico:
     listbox_widget.insert(tkinter.END, entry)
-listbox_widget.pack(side = LEFT, expand = False, fill = BOTH)
-
+listbox_widget.pack(side = LEFT, expand = True, fill = BOTH)
+arquivo.close()
 #====================================================MENU==============================================================================================================
 
 
@@ -321,21 +358,10 @@ def saida():
         root.destroy()
         return
 
-"""def cientifica():
-    root.resizable(width=False, height= False)#Usuário n pode alterar as dimensoes
-    root.geometry("812x568+450+90")
-
-def padrao():
-    root.resizable(width=False, height= False)#Usuário n pode alterar as dimensoes
-    root.geometry("695x568+450+90")"""
 
 menubar = Menu(aba1)
 padraomenu = Menu(menubar, tearoff=0)
 menubar.add_cascade(label = "Sair" , command=saida)#adiciona a opcao do usuario clicar em "opções"
-#padraomenu.add_command(label = "Calculadora Padrão", command= padrao)
-#padraomenu.add_command(label = "Calculadora científica", command= cientifica)
-#padraomenu.add_separator()
-#padraomenu.add_command(label = "Sair", command= saida)
 
 
 root.config(menu = menubar)
