@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import ttk
 import tkinter.messagebox
 import os
+from turtle import clear
 
 root = Tk()
 root.title("Calculadora Cientifica")
@@ -102,8 +103,12 @@ class Operações_Elementares(): #Vai cuidar de todas as operações mais simple
         
   
     def limpar_tudo(self): #Função que limpa as funções
-        self.limpar()
+        self.resultado = False
+        self.atual = "0"
+        self.display(0)
+        self.valor=True
         self.total=0
+        #Keyboard.persistencia("\n")
         Keyboard.persistencia("Limpar Tudo")
         Keyboard.persistencia("\n")
         
@@ -209,8 +214,6 @@ class Operações_Elementares(): #Vai cuidar de todas as operações mais simple
 valor_adicionado = Operações_Elementares()
 
 #====================================================Interface grafica================================================
-
-
 
 
 numberpadkk = "789456123"
